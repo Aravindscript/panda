@@ -28,134 +28,105 @@ button {
 
 .login-page {
   min-height: 100vh;
-  padding: 35px;
+  min-height: 100dvh;
+  padding: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  position: relative;
-
-  background-color: #a9e5df;
-  background-image:
-    radial-gradient(
-      ellipse 180px 85px at 5% 18%,
-      #ffffff 60%,
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 220px 100px at 17% 15%,
-      #ffffff 60%,
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 180px 85px at 30% 20%,
-      #ffffff 60%,
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 220px 100px at 80% 14%,
-      #ffffff 60%,
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 190px 90px at 95% 20%,
-      #ffffff 60%,
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 220px 100px at 8% 88%,
-      #ffffff 60%,
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 250px 115px at 28% 100%,
-      #ffffff 60%,
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 230px 105px at 78% 94%,
-      #ffffff 60%,
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 190px 90px at 98% 86%,
-      #ffffff 60%,
-      transparent 62%
-    ),
+  background:
+    radial-gradient(ellipse at 50% 15%, #eaffff 0%, transparent 45%),
     linear-gradient(135deg, #a9e5df, #d6f4ed);
-
-  background-size: cover;
-  background-position: center;
 }
 
-.login-card {
-  width: min(1050px, 100%);
-  min-height: 650px;
-  display: grid;
-  grid-template-columns: 1fr 0.85fr;
-  background: #fff;
-  border-radius: 30px;
-  overflow: hidden;
-  box-shadow: 0 25px 80px rgba(0, 30, 30, 0.24);
-}
+/* ONE CLOUD: no separate login card or outer container */
 
-/* LEFT LOGIN PANEL */
-
-.cloud-panel {
+.cloud-scene {
   position: relative;
-  overflow: hidden;
   isolation: isolate;
-  padding: 35px 55px;
-  background: #fff;
+  width: min(1120px, 100%);
+  min-height: 690px;
+  aspect-ratio: 1200 / 760;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.cloud-panel::before {
-  content: "";
+/* Cloud opens horizontally first */
+
+.cloud-shape {
   position: absolute;
+  inset: 0;
   z-index: -1;
-  width: 400px;
-  height: 400px;
-  top: -220px;
-  left: -130px;
-  border-radius: 50%;
-  background: #e0f5ee;
-}
-
-.cloud-top {
-  position: absolute;
-  z-index: -1;
-  top: -70px;
-  right: -90px;
-  width: 260px;
-  height: 180px;
-  border-radius: 50%;
-  background: #e6f7f0;
-  filter: blur(2px);
-}
-
-.cloud-bottom {
-  position: absolute;
-  z-index: -1;
-  bottom: -125px;
-  left: -90px;
-  width: 360px;
-  height: 230px;
-  border-radius: 50%;
-  background: #d9f3e9;
-  filter: blur(2px);
-}
-
-.form-content {
   width: 100%;
-  max-width: 390px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
+  height: 100%;
+  overflow: visible;
+  transform: scaleX(0.02);
+  opacity: 0;
+  transform-origin: center;
+  animation: cloudOpen 1.15s cubic-bezier(0.22, 0.8, 0.25, 1) forwards;
 }
 
-.form-content h1 {
+.cloud-base {
+  transform-origin: center;
+}
+
+@keyframes cloudOpen {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.02) scaleY(0.7);
+  }
+
+  65% {
+    opacity: 1;
+    transform: scaleX(1.03) scaleY(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scaleX(1) scaleY(1);
+  }
+}
+
+/* All details appear inside the cloud after 1.5 seconds */
+
+.cloud-content {
+  position: relative;
+  z-index: 1;
+  width: 82%;
+  min-height: 510px;
+  display: grid;
+  grid-template-columns: 1fr 0.9fr;
+  align-items: center;
+  gap: 8%;
+  padding: 65px 20px;
+  opacity: 0;
+  animation: contentAppear 0.85s ease-out 1.5s forwards;
+}
+
+@keyframes contentAppear {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* LOGIN SIDE: directly inside the cloud */
+
+.login-content {
+  width: 100%;
+  max-width: 370px;
+  justify-self: center;
+}
+
+.login-content h1 {
   color: #173d37;
-  font-size: 30px;
+  font-size: clamp(25px, 2.5vw, 32px);
   font-weight: 800;
   text-align: center;
 }
@@ -163,7 +134,7 @@ button {
 .subtitle {
   margin-top: 8px;
   color: #7b908b;
-  font-size: 12px;
+  font-size: 11px;
   text-align: center;
 }
 
@@ -171,15 +142,14 @@ button {
 
 .panda {
   position: relative;
-  width: 175px;
-  height: 145px;
-  margin: 25px auto 24px;
+  width: 155px;
+  height: 125px;
+  margin: 19px auto 18px;
   animation: pandaFloat 3s ease-in-out infinite;
 }
 
 @keyframes pandaFloat {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0);
   }
 
@@ -190,27 +160,27 @@ button {
 
 .ear {
   position: absolute;
-  top: 5px;
-  width: 52px;
-  height: 52px;
+  top: 4px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: #202b29;
 }
 
 .left-ear {
-  left: 18px;
+  left: 15px;
 }
 
 .right-ear {
-  right: 18px;
+  right: 15px;
 }
 
 .panda-face {
   position: absolute;
-  top: 16px;
-  left: 13px;
-  width: 149px;
-  height: 125px;
+  top: 14px;
+  left: 9px;
+  width: 137px;
+  height: 108px;
   border-radius: 48% 48% 46% 46%;
   background: #fff;
   border: 2px solid #e6eeeb;
@@ -219,9 +189,9 @@ button {
 
 .eye-patch {
   position: absolute;
-  top: 34px;
-  width: 43px;
-  height: 51px;
+  top: 28px;
+  width: 40px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -231,11 +201,11 @@ button {
 }
 
 .left-patch {
-  left: 19px;
+  left: 17px;
 }
 
 .right-patch {
-  right: 19px;
+  right: 17px;
   transform: rotate(-15deg);
 }
 
@@ -282,65 +252,79 @@ button {
   transition: height 0.18s ease;
 }
 
+/* Normal password focus: both eyes close */
+
 .panda.closed .eyelid {
   height: 100%;
 }
 
+/* Show password: one eye opens, the other stays closed */
+
+.panda.one-eye-open .left-patch .eyelid {
+  height: 100%;
+}
+
+.panda.one-eye-open .right-patch .eyelid {
+  height: 0;
+}
+
+/* NOSE AND MOUTH */
+
 .nose {
   position: absolute;
-  top: 82px;
+  top: 72px;
   left: 50%;
-  width: 16px;
-  height: 11px;
+  width: 14px;
+  height: 10px;
   transform: translateX(-50%);
-  border-radius: 50% 50% 55% 55%;
+  border-radius: 50%;
   background: #202b29;
 }
 
 .mouth {
   position: absolute;
-  top: 92px;
+  top: 82px;
   left: 50%;
-  width: 20px;
-  height: 10px;
+  width: 18px;
+  height: 9px;
   transform: translateX(-50%);
   border-bottom: 2px solid #202b29;
   border-radius: 50%;
 }
 
-/* LOGIN FORM */
+/* FORM */
 
-.form-content form {
+.login-content form {
   display: flex;
   flex-direction: column;
 }
 
-.form-content form > label {
-  margin: 12px 0 7px;
+.login-content form > label {
+  margin: 10px 0 6px;
   color: #294a43;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
 }
 
-.form-content input:not([type="checkbox"]) {
+.login-content input:not([type="checkbox"]) {
   width: 100%;
-  height: 45px;
-  padding: 0 14px;
+  height: 42px;
+  padding: 0 13px;
   border: 1px solid #dce8e3;
   border-radius: 10px;
   outline: none;
   color: #203c35;
   background: rgba(255, 255, 255, 0.9);
-  font-size: 12px;
+  font-size: 11px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-content input:not([type="checkbox"]):focus {
+.login-content input:not([type="checkbox"]):focus {
   border-color: #319b83;
   box-shadow: 0 0 0 3px rgba(49, 155, 131, 0.12);
 }
 
-.form-content input::placeholder {
+.login-content input::placeholder {
   color: #a1b1ac;
 }
 
@@ -349,7 +333,7 @@ button {
 }
 
 .password-wrapper input {
-  padding-right: 65px !important;
+  padding-right: 60px !important;
 }
 
 .password-toggle {
@@ -360,7 +344,7 @@ button {
   border: none;
   background: transparent;
   color: #26866f;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
 }
 
@@ -369,7 +353,7 @@ button {
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  margin: 15px 0 20px;
+  margin: 13px 0 17px;
 }
 
 .remember-option {
@@ -377,7 +361,7 @@ button {
   align-items: center;
   gap: 6px;
   color: #6b807a;
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .remember-option input {
@@ -395,12 +379,12 @@ button {
 
 .login-button {
   width: 100%;
-  height: 46px;
+  height: 43px;
   border: none;
   border-radius: 10px;
   background: linear-gradient(100deg, #258a76, #176657);
   color: #fff;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   box-shadow: 0 8px 18px rgba(37, 138, 118, 0.2);
   transition: transform 0.2s, box-shadow 0.2s;
@@ -412,138 +396,100 @@ button {
 }
 
 .message {
-  margin-top: 12px;
+  margin-top: 10px;
   color: #176657;
-  font-size: 11px;
+  font-size: 10px;
   text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .signup-text {
-  margin-top: 19px;
+  margin-top: 15px;
   color: #7b908b;
-  font-size: 10px;
+  font-size: 9px;
   text-align: center;
 }
 
-/* RIGHT WELCOME PANEL */
-
-.welcome-panel {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding: 45px;
-  color: #fff;
-  background: linear-gradient(145deg, #318e7c, #175c54);
-}
-
-.welcome-panel::before,
-.welcome-panel::after {
-  content: "";
-  position: absolute;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 50%;
-}
-
-.welcome-panel::before {
-  width: 420px;
-  height: 420px;
-  top: -140px;
-  right: -170px;
-}
-
-.welcome-panel::after {
-  width: 350px;
-  height: 350px;
-  bottom: -150px;
-  left: -150px;
-}
+/* WELCOME TEXT: also inside the same cloud */
 
 .welcome-content {
   position: relative;
   z-index: 1;
-  max-width: 310px;
+  width: 100%;
+  max-width: 300px;
+  justify-self: center;
+  color: white;
+  padding: 15px;
 }
 
 .welcome-label {
-  margin-bottom: 18px;
-  color: #bde9dc;
-  font-size: 10px;
+  margin-bottom: 17px;
+  color: #c5f4ed;
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
 }
 
 .welcome-content h2 {
-  margin-bottom: 18px;
-  font-size: clamp(32px, 4vw, 48px);
+  margin-bottom: 16px;
+  font-size: clamp(30px, 3.5vw, 45px);
   font-weight: 800;
   line-height: 1.15;
 }
 
 .welcome-content > p:not(.welcome-label) {
-  color: #d5eee7;
-  font-size: 13px;
-  line-height: 2;
+  color: #e0f8f4;
+  font-size: 12px;
+  line-height: 1.9;
 }
 
 .welcome-line {
-  width: 65px;
+  width: 55px;
   height: 4px;
-  margin-top: 28px;
+  margin-top: 25px;
   border-radius: 5px;
   background: #b8eadb;
-}
-
-.welcome-decoration {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.decoration-one {
-  width: 90px;
-  height: 90px;
-  top: 18%;
-  left: 12%;
-}
-
-.decoration-two {
-  width: 45px;
-  height: 45px;
-  right: 15%;
-  bottom: 20%;
 }
 
 /* TABLET */
 
 @media (max-width: 850px) {
   .login-page {
-    padding: 25px;
+    padding: 20px;
+    overflow-y: auto;
   }
 
-  .login-card {
-    max-width: 650px;
+  .cloud-scene {
+    width: 100%;
+    min-height: 780px;
+    aspect-ratio: auto;
+  }
+
+  .cloud-shape {
+    position: absolute;
+    inset: 0;
+  }
+
+  .cloud-content {
+    width: 80%;
+    min-height: auto;
     grid-template-columns: 1fr;
+    gap: 35px;
+    padding: 95px 15px;
   }
 
-  .cloud-panel {
-    padding: 35px 45px;
+  .login-content {
+    max-width: 370px;
   }
 
-  .welcome-panel {
-    min-height: 260px;
-    padding: 40px;
+  .welcome-content {
+    max-width: 370px;
     text-align: center;
   }
 
   .welcome-line {
-    margin-right: auto;
     margin-left: auto;
-  }
-
-  .welcome-label {
-    letter-spacing: 2px;
+    margin-right: auto;
   }
 }
 
@@ -551,56 +497,177 @@ button {
 
 @media (max-width: 480px) {
   .login-page {
-    min-height: 100vh;
-    padding: 16px 12px;
-    overflow-y: auto;
+    padding: 10px;
   }
 
-  .login-card {
-    width: 100%;
-    border-radius: 22px;
+  .cloud-scene {
+    min-height: 850px;
   }
 
-  .cloud-panel {
-    padding: 30px 22px;
+  .cloud-content {
+    width: 83%;
+    gap: 24px;
+    padding: 100px 0;
   }
 
-  .form-content h1 {
-    font-size: 25px;
+  .login-content h1 {
+    font-size: 24px;
   }
 
   .subtitle {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .panda {
-    margin-top: 22px;
-    margin-bottom: 20px;
+    margin-top: 16px;
+    margin-bottom: 14px;
   }
 
-  .welcome-panel {
-    min-height: 220px;
-    padding: 32px 24px;
-  }
-
-  .welcome-content h2 {
-    font-size: 32px;
-  }
-
-  .welcome-content > p:not(.welcome-label) {
-    font-size: 12px;
+  .login-content form > label {
+    font-size: 10px;
   }
 
   .form-options {
     flex-wrap: wrap;
   }
+
+  .welcome-content {
+    padding: 5px;
+  }
+
+  .welcome-label {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .welcome-content h2 {
+    font-size: 30px;
+  }
+
+  .welcome-content > p:not(.welcome-label) {
+    font-size: 11px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .cloud-shape,
+  .cloud-content,
+  .panda {
+    animation-duration: 0.01ms !important;
+  }
+
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+/* Rain stays behind the entire login experience */
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Full-screen rain layer */
+.rain-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Clearly visible raindrops */
+.raindrop {
+  position: absolute;
+  top: -80px;
+  width: 3px;
+  height: 35px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(220, 250, 255, 0.75) 20%,
+    rgba(150, 220, 255, 1) 70%,
+    rgba(100, 190, 255, 0.7) 100%
+  );
+
+  box-shadow:
+    0 0 6px rgba(140, 220, 255, 0.65),
+    0 0 12px rgba(100, 190, 255, 0.3);
+
+  animation-name: rainFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  will-change: transform;
+}
+
+/* Rain starts moving immediately */
+@keyframes rainFall {
+  0% {
+    transform: translate3d(0, -80px, 0);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translate3d(-65px, 110vh, 0);
+    opacity: 0.75;
+  }
+}
+
+/* Keep the cloud and login content above the rain */
+.cloud-scene {
+  position: relative;
+  z-index: 1;
+}
+
+/* Rain remains visible around the cloud */
+.cloud-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .raindrop {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+/* Lightning flash overlay */
+.lightning-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: rgba(210, 235, 255, 0);
+  animation: lightningStrike 2.5s infinite;
+}
+
+@keyframes lightningStrike {
+  0%, 88%, 91%, 94%, 100% {
+    background: rgba(210, 235, 255, 0);
+  }
+
+  89% {
+    background: rgba(220, 240, 255, 0.55);
+  }
+
+  90% {
+    background: rgba(220, 240, 255, 0.05);
+  }
+
+  92% {
+    background: rgba(220, 240, 255, 0.75);
+  }
+
+  93% {
+    background: rgba(220, 240, 255, 0);
   }
 }
